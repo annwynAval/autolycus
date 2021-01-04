@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.annwyn.autolycus.mybatis.dynamic.mapper.MenuOperations">
+
+    <select id="selectByRoleId" resultType="com.annwyn.autolycus.mybatis.generator.model.Menu">
+        select mmsm.*
+        from mms_menu as mmsm
+        left join mms_role_menu mmsrm on mmsm.menu_id = mmsrm.menu_id
+        where mmsrm.role_id = #{roleId}
+    </select>
+
+
+</mapper>

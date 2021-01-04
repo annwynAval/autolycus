@@ -1,0 +1,26 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /autolycus-backend
+
+spring:
+  profiles:
+    active: release
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+#  redis:
+#    database: 3
+#    port: 6379
+#    timeout: 5000
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-idle: 8
+#        min-idle: 0
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  config: classpath:log4j2/log4j2-${spring.profiles.active}.xml
