@@ -44,7 +44,6 @@ export default {
     methods: {
         handleLogin() {
             this.$refs["loginForm"].validate(valid => {
-                console.log(valid)
                 if(!valid) {
                     return ;
                 }

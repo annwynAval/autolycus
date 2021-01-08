@@ -10,7 +10,7 @@ export function mockLogin(request, response) {
     })
 }
 
-export function mockManagerDetail(request, response) {
+export function mockLoginDetail(request, response) {
     return Mock.mock({
         status: 0,
         message: "complete",
@@ -38,5 +38,30 @@ export function mockManagerDetail(request, response) {
         },
         models: {},
         total: 0
+    })
+}
+
+export function mockBasicRoles() {
+    return Mock.mock({
+        status: 0,
+        message: "complete",
+        model: null,
+        'models|1-10': [{
+            roleId: "@guid",
+            roleName: "@cname"
+        }],
+        total: 20
+    })
+}
+
+export function mockBasicPermissions() {
+    return Mock.mock({
+        status: 0,
+        message: "complete",
+        model: null,
+        models: [{
+
+        }],
+        total: 20
     })
 }

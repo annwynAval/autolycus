@@ -23,3 +23,12 @@ export function resolveMenuTree(menus) {
         return parent;
     });
 }
+
+export function showDefaultMessage(response, $this) {
+    return $this.$alert({
+        title: "消息提示",
+        message: response.data.message,
+        type: response.data.status === 0 ? "success" : "error"
+    })
+}
+
