@@ -2,25 +2,20 @@
     <el-dialog title="编辑管理员信息" :visible.sync="visible" :before-close="handleClose"
                :close-on-click-modal="false" :close-on-press-escape="false" >
         <el-form ref="managerDetailForm" size="mini" label-width="120px" :model="model" :rules="rules" v-loading="loading">
-            <el-form-item label="管理员名称" required>
+            <el-form-item label="管理员名称">
                 <el-input v-model="model.managerName" type="text" maxlength="24" placeholder="请输入管理员名称" />
             </el-form-item>
-            <el-form-item label="管理员邮箱" required>
+            <el-form-item label="管理员邮箱">
                 <el-input v-model="model.managerMail" type="text" maxlength="24" placeholder="请输入管理员邮箱" />
             </el-form-item>
-            <el-form-item label="所属权限" required>
-                <el-select v-model="model.roleId" placeholder="请选择">
-                    <el-option v-for="role in roles" :key="role.roleId" :label="role.roleName" :value="role.roleId" />
-                </el-select>
+            <el-form-item label="所属权限">
+                {{ mode.roleName }}
             </el-form-item>
-            <el-form-item label="管理员电话" required>
+            <el-form-item label="管理员电话">
                 <el-input v-model="model.managerPhone" type="text" maxlength="18" placeholder="请输入管理员电话" />
             </el-form-item>
-            <el-form-item label="管理员状态" required>
-                <el-select v-model="model.status" placeholder="请选择">
-                    <el-option :value="0" selected>可用</el-option>
-                    <el-option :value="1">不可用</el-option>
-                </el-select>
+            <el-form-item label="管理员状态">
+                {{ convertStatus(model.status) }}
             </el-form-item>
             <el-form-item class="text-right">
                 <el-button class="fixed-width" size="mini" type="primary" @click="handleSubmit">确认</el-button>
@@ -33,9 +28,11 @@
 <script>
 import {fetchManagerDetail, insertManagerDetail, updateManagerDetail} from "@/axios/manager";
 import {showDefaultMessage} from "@/utils/utils";
+import {convertStatus} from "@/mixin/ConstConvertUtils";
 
 export default {
     name: "edit",
+    mixins: [convertStatus],
     props: {
         visible: {
             type: Boolean,

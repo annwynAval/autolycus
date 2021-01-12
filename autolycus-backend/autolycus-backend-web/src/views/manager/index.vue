@@ -16,30 +16,34 @@
                 </el-col>
                 <el-col :md="12" :lg="8">
                     <el-form-item label="用户状态">
-                        <el-select v-model="searchCondition.managerStatus" clearable placeholder="请选择" >
+                        <el-select v-model="searchCondition.status" clearable placeholder="请选择" >
                             <el-option :value="0" label="不可用" />
                             <el-option :value="1" label="可用" />
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :md="24" class="text-right">
-                    <el-button class="fixed-width" size="mini" type="primary" @click="handlePageChange(0)">检索</el-button>
+                    <el-button class="fixed-width" size="mini" type="primary" @click="handlePageChange(1)">检索</el-button>
                     <el-button class="fixed-width" size="mini" type="primary" plain @click="resetCondition">重置</el-button>
                 </el-col>
             </el-row>
         </el-form>
-        <div class="table-toolbar" v-hasPermission="'mms:manager:add'">
+        <div class="table-toolbar" v-has-permission="'mms:manager:add'">
             <el-button class="fixed-width" size="mini" type="primary" @click="handleInsertDetail">新增</el-button>
         </div>
         <el-table stripe fit :data="managerDetails.models" v-loading="managerDetails.loading">
-            <el-table-column label="操作" class-name="operation-box" width="100">
+            <el-table-column label="操作" class-name="operation-box" width="200">
                 <template slot-scope="scope">
-                    <font-awesome-icon :icon="['fa', 'eye']" title="查看详情" v-hasPermission="'mms:manager:edit'"
+                    <font-awesome-icon :icon="['fa', 'eye']" title="查看详情" v-has-permission="'mms:manager:detail'"
                                        @click="handleShowDetail(scope.row)" />
-                    <font-awesome-icon :icon="['fa', 'edit']" title="编辑" v-hasPermission="'mms:manager:edit'"
+                    <font-awesome-icon :icon="['fa', 'edit']" title="编辑" v-has-permission="'mms:manager:edit'"
                                        @click="handleEditDetail(scope.row)" />
-                    <font-awesome-icon :icon="['fa', 'edit']" title="重置密码" v-haspermission="'mms:manager:edit'"
+                    <font-awesome-icon :icon="['fa', 'edit']" title="重置密码" v-has-permission="'mms:manager:edit'"
                                        @click="handleRestPassword(scope.row)" />
+                    <font-awesome-icon :icon="['fa', 'edit']" title="删除管理员" v-has-permission="'mms:manager:delete'"
+                                       @click="handleDeleteDetail(scope.row)" />
+                    <font-awesome-icon :icon="['fa', 'edit']" title="修改权限" v-has-permission="'mms:role:allocation'"
+                                       @click="handleAllocationRole(scope.row)" />
                 </template>
             </el-table-column>
             <el-table-column label="用户名称" prop="managerName" />
@@ -86,7 +90,7 @@ export default {
                 }
             },
             searchCondition: {
-                managerName: "", roleId: null, managerStatus: null
+                managerName: "", roleId: "", status: ""
             },
             detailModal: {
                 visible: false, managerId: ""
@@ -103,7 +107,7 @@ export default {
     methods: {
         resetCondition() {
             this.searchCondition = {
-                managerName: "", roleId: null, managerStatus: null
+                managerName: "", roleId: "", managerStatus: ""
             }
         },
         searchBasicRoles() {
@@ -144,6 +148,12 @@ export default {
                     this.searchManagerDetails();
                 });
             });
+        },
+        handleDeleteDetail(model) {
+
+        },
+        handleAllocationRole(model) {
+
         }
     }
 }

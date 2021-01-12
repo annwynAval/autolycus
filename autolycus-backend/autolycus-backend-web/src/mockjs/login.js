@@ -58,10 +58,43 @@ export function mockBasicPermissions() {
     return Mock.mock({
         status: 0,
         message: "complete",
-        model: null,
-        models: [{
-
-        }],
+        model: {
+            menuId: "@guid", menuName: "@cname", menuType: "@integer(0, 1)",
+            menuIcon: "@cname", menuPermission: "@cname", "children|1-8": [{
+                menuId: "@guid", menuName: "@cname", menuType: "@integer(0, 1)",
+                menuIcon: "@cname", menuPermission: "@cname", "children|1-4": [{
+                    menuId: "@guid", menuName: "@cname", menuType: "@integer(0, 1)",
+                    menuIcon: "@cname", menuPermission: "@cname", "children|1-20": [{
+                        menuId: "@guid", menuName: "@cname", menuType: "@integer(0, 1)",
+                        menuIcon: "@cname", menuPermission: "@cname",
+                    }]
+                }]
+            }]
+        },
+        models: null,
         total: 20
     })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

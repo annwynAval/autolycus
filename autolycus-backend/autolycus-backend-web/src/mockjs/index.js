@@ -26,6 +26,7 @@
 
 import {mockBasicPermissions, mockBasicRoles, mockLogin, mockLoginDetail} from "@/mockjs/login";
 import {mockManagerDetail, mockManagers, mockRestPassword} from "@/mockjs/manager";
+import {mockRoles} from "@/mockjs/role";
 
 
 const Mock = require("mockjs");
@@ -44,6 +45,8 @@ Mock.mock(baseUrl + "/manager/search.html", "post", mockManagers);
 Mock.mock(baseUrl + "/manager/detail.html", "post", mockManagerDetail);
 
 Mock.mock(baseUrl + "/manager/rest-password.html", "post", mockRestPassword);
+
+Mock.mock(baseUrl + "/role/search.html", "post", mockRoles());
 
 
 

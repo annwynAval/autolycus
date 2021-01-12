@@ -19,7 +19,7 @@ public class ManagerController {
     private ManagerService managerService;
 
     @PostMapping("search.html")
-    @PreAuthorize("@decide.hasPermission('sss')")
+    @PreAuthorize("@decide.has-permission('sss')")
     private QueryResponse<?> search() {
         return QueryResponse.success("success");
     }

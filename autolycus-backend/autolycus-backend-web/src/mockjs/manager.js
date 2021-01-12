@@ -47,3 +47,15 @@ export function mockRestPassword() {
         total: 0
     })
 }
+
+export function mockManagerInsert() {
+
+}
+
+export function mockManagerUpdate() {
+
+}
+
+export function mockManagerDelete() {
+
+}
