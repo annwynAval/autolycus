@@ -34,6 +34,28 @@ export function resetManagerPassword(managerId) {
 }
 
 /**
+ * 设定管理员权限
+ */
+export function allocationManagerRole(managerId, roleId) {
+    return service({
+        url: "/manager/allocation.html",
+        method: "post",
+        data: {managerId, roleId}
+    })
+}
+
+/**
+ * 删除用户
+ */
+export function deleteManagerDetail(managerId) {
+    return service({
+        url: "/manager/delete.html",
+        method: "post",
+        data: {managerId}
+    })
+}
+
+/**
  * 保存数据
  */
 export function insertManagerDetail(model) {

@@ -65,24 +65,35 @@ export default {
             }
         }
     },
-    created() {
-        this.loading = true;
-        if(this.type === "edit") {
-            this.title = "编辑角色信息";
-            service.all([fetchBasicPermissions(), fetchRoleDetail(this.roleId)])
-            .then(service.spread((permissionDetail, roleDetail) => {
-                this.permissions = permissionDetail.data.model;
-                this.model = roleDetail.data.model;
-            })).finally(() => {
-                this.loading = false;
-            });
-        } else {
-            this.title = "新增角色信息";
-            fetchBasicPermissions().then(response => {
-                this.permissions = response.data.model;
-                this.model = { roleId: "", roleName: "", roleRemark: "", selected: [] };
-            });
+    watch: {
+        visible(newValue, oldValue) {
+            if(!newValue) {
+                return;
+            }
+            if(this.type === "edit") {
+                this.title = "编辑角色信息";
+                this.loading = true;
+                service.all([fetchBasicPermissions(), fetchRoleDetail(this.roleId)])
+                .then(service.spread((permissionDetail, roleDetail) => {
+                    this.permissions = permissionDetail.data.model;
+                    this.model = roleDetail.data.model;
+                })).finally(() => {
+                    this.loading = false;
+                });
+            } else {
+                this.title = "新增角色信息";
+                this.loading = true;
+                fetchBasicPermissions().then(response => {
+                    this.permissions = response.data.model;
+                    this.model = { roleId: "", roleName: "", roleRemark: "", selected: [] };
+                }).finally(() => {
+                    this.loading = false;
+                });
+            }
         }
+    },
+    created() {
+
     },
     methods: {
         handleClose() {

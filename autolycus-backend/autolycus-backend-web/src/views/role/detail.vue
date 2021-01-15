@@ -2,7 +2,7 @@
     <el-dialog width="60%" title="查看管理员详细信息"
                :visible.sync="visible" :before-close="handleClose"
                :close-on-press-escape="false" :close-on-click-modal="false">
-        <el-row class="column-control">
+        <el-row class="column-control" v-loading="this.loading">
             <el-col :md="24">
                 <label class="column-label">管理员名称: </label>
                 <div class="column-plain">{{ model.managerName }}</div>
@@ -50,15 +50,18 @@ export default {
     mixins: [convertStatus],
     data() {
         return {
-            model: {
+            loading: false, model: {
                 managerId: "", managerName: "", managerMail: "",
                 roleId: "", roleName: "", managerPhone: "", status: "", registerDate: ""
             }
         }
     },
     created() {
+        this.loading = true;
         fetchManagerDetail(this.managerId).then(response => {
             this.model = response.data.model;
+        }).finally(() => {
+            this.loading = false;
         });
     },
     methods: {

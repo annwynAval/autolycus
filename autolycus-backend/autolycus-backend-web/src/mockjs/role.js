@@ -21,21 +21,41 @@ export function mockRoleDetail() {
     return Mock.mock({
         status: 0,
         message: "complete",
+        model: {
+
+        },
+        models: null,
+        total: 0
+    })
+}
+
+export function mockRoleInsert(model) {
+    return Mock.mock({
+        status: 0,
+        message: "complete",
         model: null,
         models: null,
         total: 22
     })
 }
 
-export function mockRoleInsert() {
-
+export function mockRoleUpdate(model) {
+    return Mock.mock({
+        status: 0,
+        message: "complete",
+        model: null,
+        models: null,
+        total: 22
+    })
 }
 
-export function mockRoleUpdate() {
-
-}
-
-export function mockRoleDelete() {
-
+export function mockRoleDelete(model) {
+    return Mock.mock({
+        status: 0,
+        message: "complete",
+        model: null,
+        models: null,
+        total: 22
+    })
 }
 

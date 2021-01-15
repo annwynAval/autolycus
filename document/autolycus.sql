@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 31/12/2020 17:41:29
+ Date: 15/01/2021 18:11:30
 */
 
 SET NAMES utf8mb4;
@@ -34,6 +34,12 @@ CREATE TABLE `mms_manager`  (
   PRIMARY KEY (`manager_id`) USING BTREE,
   UNIQUE INDEX `idx_manager_mail`(`manager_mail`) USING BTREE COMMENT '用户登录邮箱唯一约束'
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '管理用户' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mms_manager
+-- ----------------------------
+INSERT INTO `mms_manager` VALUES ('1', '1', '1', '1', '1', '1', 1, '2021-01-13 17:11:08', '2021-01-13 17:11:08');
+INSERT INTO `mms_manager` VALUES ('2', '2', '2', '2', '2', '2', 1, '2021-01-13 17:11:49', '2021-01-13 17:11:49');
 
 -- ----------------------------
 -- Table structure for mms_menu
@@ -60,9 +66,15 @@ CREATE TABLE `mms_role`  (
   `role_id` varchar(8) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `role_name` varchar(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '角色名称',
   `role_remark` varchar(1024) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT '备注',
-  `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态值: 1.可用; 0:不可用',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态值: 1:可用; 0:不可用',
   PRIMARY KEY (`role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of mms_role
+-- ----------------------------
+INSERT INTO `mms_role` VALUES ('1', '1', '1', 0);
+INSERT INTO `mms_role` VALUES ('3', '3', '3', 0);
 
 -- ----------------------------
 -- Table structure for mms_role_menu
@@ -76,6 +88,53 @@ CREATE TABLE `mms_role_menu`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci COMMENT = '权限-菜单关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for oms_consignee
+-- ----------------------------
+DROP TABLE IF EXISTS `oms_consignee`;
+CREATE TABLE `oms_consignee`  (
+  `consignee_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人编码',
+  `order_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编码',
+  `consignee_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人名称',
+  `consignee_phone` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人电话',
+  `province_code` int(11) NOT NULL COMMENT '省编码',
+  `province_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '省名称',
+  `city_code` int(11) NOT NULL COMMENT '城市编码',
+  `city_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '城市名称',
+  `area_code` int(32) NOT NULL COMMENT '区域编码',
+  `area_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '区域名称',
+  `street_code` int(32) NOT NULL COMMENT '街道编码',
+  `street_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '街道名称',
+  `address` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '地址',
+  `post_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮编',
+  `register_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  PRIMARY KEY (`consignee_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单收件地址信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for oms_order
+-- ----------------------------
+DROP TABLE IF EXISTS `oms_order`;
+CREATE TABLE `oms_order`  (
+  `order_id` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编号',
+  `member_id` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户编号',
+  `coupon_id` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '优惠券编号',
+  `total_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '订单总金额',
+  `pay_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '订单已付金额',
+  `freight_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '订单运费金额',
+  `promotion_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '订单促销金额',
+  `coupon_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '订单优惠券金额',
+  `discount_amount` decimal(12, 2) NOT NULL DEFAULT 0.00 COMMENT '管理员后台调整优惠金额',
+  `order_pay_type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '支付方式: 0: 未支付. 1: 支付宝. 2: 微信',
+  `order_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '订单状态: 0: 待付款. 1: 待发货. 2: 已发货. 3: 已完成. 4: 已关闭. 5: 无效订单',
+  `order_source_type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '订单来源: 0: PC',
+  `payment_time` datetime(0) NULL DEFAULT NULL COMMENT '订单支付时间',
+  `delivery_time` datetime(0) NULL DEFAULT NULL COMMENT '订单发货时间',
+  `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '订单确认收货时间',
+  `register_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '订单创建时间',
+  PRIMARY KEY (`order_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for sms_region
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_region`;
@@ -84,7 +143,7 @@ CREATE TABLE `sms_region`  (
   `region_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `parent_id` int(11) NULL DEFAULT NULL,
   `region_level` tinyint(1) NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '中国省市区级联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sms_region
@@ -46266,5 +46325,45 @@ INSERT INTO `sms_region` VALUES (659004502, '兵团一零三团', 659004, 4);
 INSERT INTO `sms_region` VALUES (659006, '铁门关市', 6590, 3);
 INSERT INTO `sms_region` VALUES (659006100, '博古其镇', 659006, 4);
 INSERT INTO `sms_region` VALUES (659006101, '双丰镇', 659006, 4);
+
+-- ----------------------------
+-- Table structure for ums_consignee
+-- ----------------------------
+DROP TABLE IF EXISTS `ums_consignee`;
+CREATE TABLE `ums_consignee`  (
+  `consignee_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人编码',
+  `member_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单编码',
+  `consignee_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人名称',
+  `consignee_phone` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '收件人电话',
+  `province_code` int(11) NOT NULL COMMENT '省编码',
+  `province_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '省名称',
+  `city_code` int(11) NOT NULL COMMENT '城市编码',
+  `city_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '城市名称',
+  `area_code` int(32) NOT NULL COMMENT '区域编码',
+  `area_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '区域名称',
+  `street_code` int(32) NOT NULL COMMENT '街道编码',
+  `street_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '街道名称',
+  `address` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '地址',
+  `post_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮编',
+  `is_default` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否是默认的地址. 1:是; 0:否',
+  `register_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  PRIMARY KEY (`consignee_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户收件地址信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for ums_member
+-- ----------------------------
+DROP TABLE IF EXISTS `ums_member`;
+CREATE TABLE `ums_member`  (
+  `member_id` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键',
+  `member_mail` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
+  `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
+  `member_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号码',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态值: 0: 可用, 1:不可用',
+  `member_icon` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  PRIMARY KEY (`member_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

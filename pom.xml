@@ -12,6 +12,7 @@
     <modules>
         <module>autolycus-parent</module>
         <module>autolycus-backend</module>
+        <module>autolycus-platform</module>
     </modules>
 
     <parent>

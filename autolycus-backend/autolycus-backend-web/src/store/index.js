@@ -1,38 +1,36 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import router, {asyncRouters} from "@/router";
 
 Vue.use(Vuex);
 
 const getters = {
-    menus: state => state.authentication.menus,
+    routers: state => state.authentication.routers,
     permissions: state => state.authentication.permissions,
     clientToken: state => state.authentication.clientToken,
-    managerDetail: state => state.authentication.managerDetail
+    authentication: state => state.authentication.authentication
 }
 
 const authentication = {
     namespace: true,
     state: {
-        menus: [],
-        permissions: [],
+        routers: undefined,
+        permissions: undefined,
         clientToken: undefined,
-        managerDetail: undefined
+        authentication: undefined
     },
     mutations: {
         SET_CLIENT_TOKEN: (state, clientToken) => {
             state.clientToken = clientToken;
         },
-        SET_MANAGER_DETAIL: (state, managerDetail) => {
-            state.managerDetail = {
-                roleName: managerDetail.roleName,
-                managerName: managerDetail.managerName
-            };
+        SET_AUTHENTICATION: (state, authentication) => {
+            state.authentication = authentication;
         },
-        SET_PERMISSIONS: (state, managerDetail) => {
-            state.permissions = managerDetail.permissions;
+        SET_PERMISSIONS: (state, permissions) => {
+            state.permissions = permissions;
         },
-        SET_MENUS: (state, managerDetail) => {
-            state.menus = managerDetail.menus;
+        SET_ROUTERS: (state, routers) => {
+            state.routers = routers;
         }
     },
     actions: {
@@ -40,12 +38,27 @@ const authentication = {
             commit("SET_CLIENT_TOKEN", clientToken);
             window.localStorage.setItem("client_token", clientToken);
         },
-        setManagerDetails({commit}, managerDetail) {
-            commit("SET_MANAGER_DETAIL", managerDetail);
-            commit("SET_PERMISSIONS", managerDetail);
-            commit("SET_MENUS", managerDetail);
+        setAuthenticationDetails({commit}, authenticationDetail) {
+            commit("SET_AUTHENTICATION", {
+                roleName: authenticationDetail.roleName, managerName: authenticationDetail.managerName
+            });
+            commit("SET_PERMISSIONS", authenticationDetail.permissions);
+
+            commit("SET_ROUTERS", authenticationDetail);
         }
     }
+}
+
+function getRouters(menus) {
+    asyncRouters.filter(router)
+}
+
+function getMenus(menus) {
+    asyncRouters.filter(router => {
+        router.children.filter(child => {
+
+        })
+    })
 }
 
 const vuex = new Vuex.Store({

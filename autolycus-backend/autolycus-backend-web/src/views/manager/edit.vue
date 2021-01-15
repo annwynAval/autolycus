@@ -45,10 +45,6 @@ export default {
         type: { // insert / edit
             type: String,
             required: true
-        },
-        roles: {
-            type: Array,
-            required: true
         }
     },
     data() {
@@ -78,20 +74,25 @@ export default {
             }
         }
     },
-    created() {
-        if(this.type === "edit") {
-            this.title = "编辑管理员信息";
-            this.loading = true;
-            fetchManagerDetail(this.managerId).then(response => {
-                this.model = response.data.model;
-            }).finally(() => {
-                this.loading = false;
-            });
-        } else {
-            this.title = "新增管理员信息";
-            this.model = {
-                managerId: "", managerName: "", managerMail: "",
-                roleId: "", managerPhone: "", status: "", registerDate: ""
+    watch: {
+        visible(newValue, oldValue) {
+            if(!newValue) {
+                return;
+            }
+            if(this.type === "edit") {
+                this.title = "编辑管理员信息";
+                this.loading = true;
+                fetchManagerDetail(this.managerId).then(response => {
+                    this.model = response.data.model;
+                }).finally(() => {
+                    this.loading = false;
+                });
+            } else {
+                this.title = "新增管理员信息";
+                this.model = {
+                    managerId: "", managerName: "", managerMail: "",
+                    roleId: "", managerPhone: "", status: "", registerDate: ""
+                }
             }
         }
     },

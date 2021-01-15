@@ -26,8 +26,7 @@
 
 import {mockBasicPermissions, mockBasicRoles, mockLogin, mockLoginDetail} from "@/mockjs/login";
 import {mockManagerDetail, mockManagers, mockRestPassword} from "@/mockjs/manager";
-import {mockRoles} from "@/mockjs/role";
-
+import {mockRoleDelete, mockRoleDetail, mockRoleInsert, mockRoles, mockRoleUpdate} from "@/mockjs/role";
 
 const Mock = require("mockjs");
 const baseUrl = process.env.VUE_APP_REMOTE_URL;
@@ -46,7 +45,15 @@ Mock.mock(baseUrl + "/manager/detail.html", "post", mockManagerDetail);
 
 Mock.mock(baseUrl + "/manager/rest-password.html", "post", mockRestPassword);
 
-Mock.mock(baseUrl + "/role/search.html", "post", mockRoles());
+Mock.mock(baseUrl + "/role/search.html", "post", mockRoles);
+
+Mock.mock(baseUrl + "/role/detail.html", "post", mockRoleDetail);
+
+Mock.mock(baseUrl + "/role/insert.html", "post", mockRoleInsert);
+
+Mock.mock(baseUrl + "/role/update.html", "post", mockRoleUpdate);
+
+Mock.mock(baseUrl + "/role/delete.html", "post", mockRoleDelete);
 
 
 

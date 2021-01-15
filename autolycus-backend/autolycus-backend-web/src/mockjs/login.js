@@ -17,26 +17,23 @@ export function mockLoginDetail(request, response) {
         model: {
             managerName: "@email",
             roleName: "管理员",
-            permissions: ["", "", "", "", ""],
+            permissions: [
+                "mms:manager:add", "mms:manager:edit", "mms:manager:delete",
+                "mms:role:add", "mms:role:edit", "mms:role:delete", "mms:role:allocation"
+            ],
             menus: [{
-                menuId: 1, menuName: "1", menuHref: "", menuIcon: "", parentMenuId: 0
+                menuId: "@guid", menuName: "后台管理", menuHref: "", menuIcon: "", parentMenuId: 0
             }, {
-                menuId: 2, menuName: "2", menuHref: "", menuIcon: "", parentMenuId: 0
+                menuId: "@guid", menuName: "系统管理", menuHref: "", menuIcon: "", parentMenuId: 0
             }, {
-                menuId: 3, menuName: "3", menuHref: "", menuIcon: "", parentMenuId: 0
+                menuId: "@guid", menuName: "商城管理", menuHref: "", menuIcon: "", parentMenuId: 0
             }, {
-                menuId: 4, menuName: "4", menuHref: "", menuIcon: "", parentMenuId: 1
+                menuId: "@guid", menuName: "管理员管理", menuHref: "", menuIcon: "", parentMenuId: 1
             }, {
-                menuId: 5, menuName: "5", menuHref: "", menuIcon: "", parentMenuId: 1
-            }, {
-                menuId: 6, menuName: "6", menuHref: "", menuIcon: "", parentMenuId: 2
-            }, {
-                menuId: 7, menuName: "7", menuHref: "", menuIcon: "", parentMenuId: 2
-            }, {
-                menuId: 8, menuName: "8", menuHref: "", menuIcon: "", parentMenuId: 3
+                menuId: "@guid", menuName: "角色管理", menuHref: "", menuIcon: "", parentMenuId: 1
             }]
         },
-        models: {},
+        models: null,
         total: 0
     })
 }

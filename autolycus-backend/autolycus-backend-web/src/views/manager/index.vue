@@ -34,8 +34,7 @@
         <el-table stripe fit :data="managerDetails.models" v-loading="managerDetails.loading">
             <el-table-column label="操作" class-name="operation-box" width="200">
                 <template slot-scope="scope">
-                    <font-awesome-icon :icon="['fa', 'eye']" title="查看详情" v-has-permission="'mms:manager:detail'"
-                                       @click="handleShowDetail(scope.row)" />
+                    <font-awesome-icon :icon="['fa', 'eye']" title="查看详情" @click="handleShowDetail(scope.row)" />
                     <font-awesome-icon :icon="['fa', 'edit']" title="编辑" v-has-permission="'mms:manager:edit'"
                                        @click="handleEditDetail(scope.row)" />
                     <font-awesome-icon :icon="['fa', 'edit']" title="重置密码" v-has-permission="'mms:manager:edit'"
@@ -64,23 +63,26 @@
                        @current-change="handlePageChange" />
         <detail-modal :visible="detailModal.visible" :manager-id="this.detailModal.managerId" @close="detailModal.visible = false"/>
 
-        <edit-modal :visible="editModal.visible" :type="this.editModal.type" :roles="roles"
-                    :manager-id="this.editModal.managerId" @close="editModal.visible = false" />
+        <edit-modal :visible="editModal.visible" :manager-id="this.editModal.managerId" :type="this.editModal.type" @close="editModal.visible = false" />
+
+        <allocation-modal :visible="allocationModal.visible" :manager-id="this.allocationModal.managerId" :role-id="this.allocationModal.roleId"
+                          :roles="roles" @close="allocationModal.visible = false" />
     </div>
 </template>
 
 <script>
-import {DEFAULT_PAGINATION_SIZE} from "@/utils/utils";
+import {DEFAULT_PAGINATION_SIZE, showDefaultMessage} from "@/utils/utils";
 import {fetchBasicRoles} from "@/axios/login";
-import {fetchManagers, resetManagerPassword} from "@/axios/manager";
+import {deleteManagerDetail, fetchManagers, resetManagerPassword} from "@/axios/manager";
 import {convertStatus} from "@/mixin/ConstConvertUtils"
 import EditModal from "@/views/manager/edit"
 import DetailModal from "@/views/manager/detail";
+import AllocationModal from "@/views/manager/allocation";
 
 export default {
     name: "index",
     mixins: [convertStatus],
-    components: {EditModal, DetailModal},
+    components: {EditModal, DetailModal, AllocationModal},
     data() {
         return {
             roles: [],
@@ -97,6 +99,9 @@ export default {
             },
             editModal: {
                 visible: false, type: "insert", managerId: ""
+            },
+            allocationModal: {
+                visible: false, managerId: "", roleId: ""
             }
         }
     },
@@ -144,16 +149,27 @@ export default {
         },
         handleRestPassword(model) {
             resetManagerPassword(model.managerId).then(response => {
-                this.$alert(response.data.message, "消息提示").then(() => {
+                showDefaultMessage(response.data.message, this).then(() => {
                     this.searchManagerDetails();
                 });
             });
         },
         handleDeleteDetail(model) {
-
+            this.$confirm({
+                title: "确认删除? ",
+                message: "确认删除当前管理员?"
+            }).then(() => {
+                deleteManagerDetail(model.managerId).then(response => {
+                    showDefaultMessage(response.data.message, this).then(() => {
+                        this.searchManagerDetails();
+                    });
+                });
+            });
         },
         handleAllocationRole(model) {
-
+            this.allocationModal.managerId = model.managerId;
+            this.allocationModal.roleId = model.roleId;
+            this.allocationModal.visible = true;
         }
     }
 }
