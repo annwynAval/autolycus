@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.annwn.autolycus</groupId>
+    <groupId>com.annwyn.autolycus</groupId>
     <artifactId>autolycus</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
     <modules>
-        <module>autolycus-parent</module>
         <module>autolycus-backend</module>
+        <module>autolycus-common</module>
         <module>autolycus-platform</module>
     </modules>
 
@@ -25,13 +25,10 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <peleus.version>1.0.0</peleus.version>
-        <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
-        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <autolycus.version>1.0.0</autolycus.version>
 
-        <jackson.version>2.10.3</jackson.version>
         <guava.version>28.2-jre</guava.version>
-
+        <jackson.version>2.10.3</jackson.version>
         <mysql.version>5.1.48</mysql.version>
         <mybatis.version>2.1.3</mybatis.version>
 
@@ -82,14 +79,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.annwn.autolycus</groupId>
-                <artifactId>autolycus-common</artifactId>
-                <version>1.0.0</version>
+                <groupId>com.annwyn.autolycus</groupId>
+                <artifactId>autolycus-extra</artifactId>
+                <version>${autolycus.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.annwn.autolycus</groupId>
+                <groupId>com.annwyn.autolycus</groupId>
                 <artifactId>autolycus-database</artifactId>
-                <version>1.0.0</version>
+                <version>${autolycus.version}</version>
             </dependency>
 
             <dependency>
@@ -138,10 +135,8 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
-
 
     <build>
         <finalName>${project.groupId}-${project.version}</finalName>
@@ -187,7 +182,7 @@
                 <plugin>
                     <groupId>org.mybatis.generator</groupId>
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
-                    <version>1.3.7</version>
+                    <version>1.4.0</version>
                     <configuration>
                         <configurationFile>${mybatis.generator.location}</configurationFile>
                         <overwrite>true</overwrite>

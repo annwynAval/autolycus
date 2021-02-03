@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.annwyn.autolycus.common.configuration.AutolycusDefaultAutoConfiguration

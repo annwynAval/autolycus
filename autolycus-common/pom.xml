@@ -9,11 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>autolycus-platform</artifactId>
+    <artifactId>autolycus-common</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>autolycus-platform-service</module>
+        <module>autolycus-database</module>
+        <module>autolycus-extra</module>
     </modules>
 
 
