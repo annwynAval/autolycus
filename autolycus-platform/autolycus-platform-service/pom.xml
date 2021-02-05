@@ -17,10 +17,6 @@
             <artifactId>autolycus-extra</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.annwyn.autolycus</groupId>
-            <artifactId>autolycus-database</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.annwyn.hecate</groupId>
             <artifactId>hecate</artifactId>
         </dependency>

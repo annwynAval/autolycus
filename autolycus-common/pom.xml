@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>autolycus-database</module>
         <module>autolycus-extra</module>
     </modules>
 

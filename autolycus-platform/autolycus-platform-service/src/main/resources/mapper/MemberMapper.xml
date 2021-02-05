@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.annwyn.autolycus.platform.mybatis.mapper.MemberMapper">
+
+    <!--保存数据-->
+    <insert id="insert">
+
+    </insert>
+
+    <!--更新数据-->
+    <update id="update">
+
+    </update>
+
+    <!--根据邮箱地址查询用户总数, 用于判断邮箱是否重复-->
+    <select id="countByMailAddress" resultType="java.lang.Integer">
+        select count(*) from ums_member where member_mail = #{mailAddress}
+    </select>
+</mapper>

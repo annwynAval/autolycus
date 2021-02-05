@@ -83,11 +83,6 @@
                 <artifactId>autolycus-extra</artifactId>
                 <version>${autolycus.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.annwyn.autolycus</groupId>
-                <artifactId>autolycus-database</artifactId>
-                <version>${autolycus.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.annwyn.hecate</groupId>

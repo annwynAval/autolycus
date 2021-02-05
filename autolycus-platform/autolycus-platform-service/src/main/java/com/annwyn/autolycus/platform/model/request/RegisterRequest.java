@@ -1,4 +1,4 @@
-package com.annwyn.autolycus.platform.model;
+package com.annwyn.autolycus.platform.model.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -2,7 +2,7 @@ package com.annwyn.autolycus.platform.core.controller;
 
 import com.annwyn.autolycus.extra.model.QueryResponse;
 import com.annwyn.autolycus.platform.core.service.RegisterService;
-import com.annwyn.autolycus.platform.model.RegisterRequest;
+import com.annwyn.autolycus.platform.model.request.RegisterRequest;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +44,5 @@ public class RegisterController {
     public QueryResponse<?> register(RegisterRequest registerRequest) {
         return this.registerService.register(registerRequest);
     }
-
 
 }

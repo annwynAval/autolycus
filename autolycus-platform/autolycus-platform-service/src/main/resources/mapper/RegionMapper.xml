@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.annwyn.autolycus.platform.mybatis.mapper.RegionMapper">
+
+    <!--根据父id与名称进行检索-->
+    <select id="listByParentId" resultType="com.annwyn.autolycus.platform.mybatis.model.Region">
+        select * from sms_region
+        <where>
+            <if test="parentId != null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="regionName != null and regionName != ''">
+                and region_name like concat('%', name, '%')
+            </if>
+        </where>
+        order by region_id
+    </select>
+
+    <!--根据id查询城市数据-->
+    <select id="listByIds" resultType="com.annwyn.autolycus.platform.mybatis.model.Region">
+        select * from sms_region
+        <where>
+            <if test="regionIds != null and regionIds.size() != 0">
+                and region_id in
+                <foreach collection="regionIds" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--根据id查询-->
+    <select id="listById" resultType="com.annwyn.autolycus.platform.mybatis.model.Region">
+        select * from sms_region
+        <where>
+            <if test="regionId != null">
+                and region_id = #{regionId}
+            </if>
+        </where>
+    </select>
+</mapper>
