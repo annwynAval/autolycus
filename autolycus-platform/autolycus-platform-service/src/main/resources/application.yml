@@ -2,12 +2,10 @@ spring:
   profiles:
     active: release
 
-  redis:
-    timeout:
+#  redis:
+#    timeout:
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
-
-

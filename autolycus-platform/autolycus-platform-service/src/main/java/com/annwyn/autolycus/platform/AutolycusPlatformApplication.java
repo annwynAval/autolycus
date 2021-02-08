@@ -15,6 +15,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import springfox.documentation.oas.annotations.EnableOpenApi;
+
 
 @SpringBootApplication
 public class AutolycusPlatformApplication {
@@ -55,6 +57,5 @@ public class AutolycusPlatformApplication {
     public JavaMailSender javaMailSender() {
         return new JavaMailSenderImpl();
     }
-
 
 }

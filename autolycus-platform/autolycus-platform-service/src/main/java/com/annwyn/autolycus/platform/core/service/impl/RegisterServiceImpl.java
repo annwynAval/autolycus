@@ -11,6 +11,7 @@ import com.annwyn.autolycus.platform.model.request.RegisterRequest;
 import com.annwyn.autolycus.platform.mybatis.model.Member;
 import com.annwyn.autolycus.platform.utils.ConstantUtils;
 import com.annwyn.autolycus.platform.utils.ParamUtils;
+import com.annwyn.autolycus.platform.utils.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,7 +35,7 @@ public class RegisterServiceImpl implements RegisterService {
     private JavaMailSender javaMailSender;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisUtils redisUtils;
 
     @Resource
     private MemberRepository memberRepository;
@@ -51,10 +52,8 @@ public class RegisterServiceImpl implements RegisterService {
             if(this.memberRepository.countByMailAddress(mailAddress) != 0) {
                 throw new ServiceException("该邮箱已经被注册, 请使用该邮箱进行登录");
             }
-            // 生产验证码
-            final String captcha = ParamUtils.makeCaptcha();
-            this.redisTemplate.opsForValue().set(ConstantUtils.CAPTCHA_PREFIX + mailAddress, captcha, 10, TimeUnit.MINUTES);
-
+            // 生成验证码
+            final String captcha = this.redisUtils.setCaptcha(mailAddress, ParamUtils.makeCaptcha());
             // 发送邮件
             MimeMessageHelper messageHelper = new MimeMessageHelper(this.javaMailSender.createMimeMessage(), true);
             messageHelper.setTo(mailAddress);
@@ -63,14 +62,16 @@ public class RegisterServiceImpl implements RegisterService {
             return QueryResponse.success("验证码已经发送至邮箱, 请注意查收!");
         } catch(MessagingException e) {
             this.logger.error("邮件发送失败: " + mailAddress, e);
-            this.redisTemplate.delete(ConstantUtils.CAPTCHA_PREFIX + mailAddress);
+            // 邮件发送失败, 直接删除redis中的验证码
+            this.redisUtils.deleteCaptcha(mailAddress);
             throw new ServiceException("发送邮件至" + mailAddress + "失败, 请联系管理员.");
         }
     }
 
     @Override
     public QueryResponse<String> register(RegisterRequest registerRequest) {
-        String redisCaptcha = (String) this.redisTemplate.opsForValue().get(ConstantUtils.CAPTCHA_PREFIX + registerRequest.getMemberMail());
+        // 从redis中获取验证码并比对.
+        String redisCaptcha = this.redisUtils.getCaptcha(registerRequest.getMemberMail());
         if(!Objects.equals(redisCaptcha, registerRequest.getCaptcha())) {
             throw new ServiceException("验证码不正确, 请在当前注册的邮箱内查看验证码!");
         }
@@ -81,6 +82,7 @@ public class RegisterServiceImpl implements RegisterService {
         member.setStatus(ConstantUtils.MEMBER_STATUS_ENABLED);
 
         this.memberRepository.insertMember(member);
+        this.redisUtils.deleteCaptcha(registerRequest.getMemberMail());
         return QueryResponse.success("用户注册成功.");
     }
 }
