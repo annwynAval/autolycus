@@ -1,16 +1,24 @@
 spring:
   application:
-    name: autolycus-backend-application
+    name: autolycus-backend
+  profiles:
+    active: release
 
 server:
   port: 8888
   servlet:
     context-path: /autolycus-backend
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
+
 com:
   annwyn:
     swagger:
       enable: true
       base-package: com.annwyn.autolycus.backend.core.controller
       version: 1.0.0
-      title: 测试文档
-      description: 测试文档1
+      title: autolycus后台管理系统
+      description: autolycus后台管理系统 - swagger api文档

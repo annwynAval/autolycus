@@ -4,8 +4,8 @@ import com.annwyn.autolycus.extra.exception.ServiceException;
 import com.annwyn.autolycus.extra.model.QueryResponse;
 import com.annwyn.autolycus.platform.core.repository.MemberRepository;
 import com.annwyn.autolycus.platform.core.service.MemberService;
-import com.annwyn.autolycus.platform.model.request.MemberContactRequest;
 import com.annwyn.autolycus.platform.mybatis.model.Member;
+import com.annwyn.autolycus.platform.utils.ConstantUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +29,9 @@ public class MemberServiceImpl implements MemberService {
         if(member == null) {
             throw new ServiceException("没有找到登录用户的信息");
         }
+        if(Objects.equals(member.getStatus(), ConstantUtils.MEMBER_STATUS_DISABLED)) {
+            throw new ServiceException("当前账户已经被注销, 无法修改密码");
+        }
 
         if(!Objects.equals(this.passwordEncoder.encode(validPassword), member.getPassword())) {
             throw new ServiceException("原密码不正确, 请重新输入!");
@@ -50,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public QueryResponse<String> changeMemberIcon(MultipartFile multipartFile, String memberMail) {
-
+        // 调用客户端上传文件
         return null;
     }
 }

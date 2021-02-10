@@ -36,6 +36,6 @@ public interface MemberMapper {
      * @param mailAddress .
      * @return .
      */
-    Member searchByMail(String mailAddress);
+    Member searchByMail(@Param("mailAddress") String mailAddress);
 
 }

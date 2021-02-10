@@ -34,6 +34,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public QueryResponse<String> login(String memberMail, String password) {
+
         return null;
     }
 

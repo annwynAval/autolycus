@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -92,8 +93,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ServiceException.class)
     public QueryResponse<?> resolveServiceException(ServiceException e) {
-        this.logger.error(e.getMessage(), e);
-        return QueryResponse.failed(e.getMessage());
+        String message = MessageFormat.format(e.getMessage(), e.getArguments());
+        this.logger.error(message, e);
+        return QueryResponse.failed(message);
     }
 
     /**
@@ -117,8 +119,5 @@ public class GlobalExceptionHandler {
         this.logger.error("程序出现异常. ", e);
         return QueryResponse.build(ResponseStatus.STATUS_UNKNOWN_ERROR, "程序出现未知异常. 请与管理员联系.");
     }
-
-
-
 
 }

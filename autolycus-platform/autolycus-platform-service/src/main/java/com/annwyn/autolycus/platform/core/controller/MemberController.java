@@ -20,9 +20,6 @@ import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static com.annwyn.autolycus.platform.utils.ConstantUtils.MemberValidUtils.MAIL_MAX_LENGTH;
 import static com.annwyn.autolycus.platform.utils.ConstantUtils.MemberValidUtils.NAME_MAX_LENGTH;
 import static com.annwyn.autolycus.platform.utils.ConstantUtils.MemberValidUtils.PASSWORD_MAX_LENGTH;
@@ -83,7 +80,7 @@ public class MemberController {
             }
         }
         if(!isSuffixValidated) {
-            throw new ServiceException("上传文件的后缀名: {0}不正确", multipartFile);
+            throw new ServiceException("上传文件的后缀名: {0}不正确, 只支持图片文件!", multipartFile);
         }
 
         return this.memberService.changeMemberIcon(multipartFile, memberMail);

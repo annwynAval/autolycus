@@ -4,6 +4,6 @@ import java.io.InputStream;
 
 public interface OssClient {
 
-    String uploadFile(InputStream inputStream);
+    String uploadFile(String ossKey, InputStream inputStream);
 
 }

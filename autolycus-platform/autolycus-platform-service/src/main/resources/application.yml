@@ -1,11 +1,24 @@
 spring:
+  application:
+    name: autolycus-platform
   profiles:
     active: release
 
-#  redis:
-#    timeout:
+server:
+  port: 8888
+  servlet:
+    context-path: /autolycus-platform
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mapper/*.xml
+
+com:
+  annwyn:
+    swagger:
+      enable: true
+      base-package: com.annwyn.autolycus.platform.core.controller
+      version: 1.0.0
+      title: autolycus前端商城系统
+      description: autolycus前端商城系统 - swagger api文档

@@ -3,6 +3,7 @@ package com.annwyn.autolycus.platform;
 
 import com.annwyn.autolycus.extra.utils.generator.IdGeneratorUtils;
 import com.annwyn.autolycus.extra.utils.generator.ShortIdGeneratorUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
@@ -15,10 +16,11 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.annwyn.autolycus"
+})
 public class AutolycusPlatformApplication {
 
     public static void main(String[] args) {
@@ -44,8 +46,8 @@ public class AutolycusPlatformApplication {
     }
 
     @Bean
-    public RedisSerializer<Object> valueSerializer() {
-        return new GenericJackson2JsonRedisSerializer();
+    public RedisSerializer<Object> valueSerializer(ObjectMapper objectMapper) {
+        return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
 
     @Bean

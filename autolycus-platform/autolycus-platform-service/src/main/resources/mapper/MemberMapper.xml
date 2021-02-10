@@ -6,18 +6,36 @@
 
     <!--保存数据-->
     <insert id="insert">
-
+        insert into ums_member(member_id, member_mail, `password`, member_name, `phone`, `status`, member_icon) VALUES
+        (#{member.memberId}, #{member.memberMail}, #{member.password}, #{member.memberName}, #{member.phone}, #{member.status}, #{member.memberIcon})
     </insert>
-
-
 
     <!--更新密码-->
     <update id="updatePassword">
-
+        update ums_member set `password` = #{password} where member_mail = #{memberMail}
     </update>
+
     <!--更新数据-->
     <update id="updateByMailIfRequired">
-
+        update ums_member
+        <set>
+            <if test="member.password != null and member.password != ''">
+                `password` = #{member.password},
+            </if>
+            <if test="member.memberName != null and member.memberName != ''">
+                member_name = #{member.memberName},
+            </if>
+            <if test="member.phone != null and member.phone != ''">
+                phone = #{member.phone},
+            </if>
+            <if test="member.memberIcon != null and member.memberIcon != ''">
+                member_icon = #{member.memberIcon},
+            </if>
+            <if test="member.status != null">
+                `status` = #{member.phone},
+            </if>
+        </set>
+        where member_mail = #{member.memberMail}
     </update>
 
     <!--根据邮箱地址查询用户总数, 用于判断邮箱是否重复-->
@@ -25,7 +43,8 @@
         select count(*) from ums_member where member_mail = #{mailAddress}
     </select>
 
+    <!--根据邮箱地址检索-->
     <select id="searchByMail" resultType="com.annwyn.autolycus.platform.mybatis.model.Member">
-
+        select * from ums_member where member_mail = #{mailAddress}
     </select>
 </mapper>

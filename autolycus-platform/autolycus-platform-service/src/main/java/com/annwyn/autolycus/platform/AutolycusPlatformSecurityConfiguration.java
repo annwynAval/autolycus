@@ -16,7 +16,7 @@ import javax.validation.Validator;
 
 @Configuration
 @EnableWebSecurity
-public class AutolycusSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class AutolycusPlatformSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
